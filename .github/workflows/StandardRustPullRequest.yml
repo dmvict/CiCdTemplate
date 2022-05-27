@@ -35,11 +35,3 @@ jobs :
         run : |
           echo "::set-output name=shouldRun::false"
           exit 1
-
-  # build :
-  #   needs : continue
-  #   if : ${{ needs.check.outputs.shouldRun != 'false' }}
-  #   uses : Wandalen/wTools/.github/workflows/RustFast.yml@master
-  #   with :
-  #     manifest_path : './Cargo.toml'
-

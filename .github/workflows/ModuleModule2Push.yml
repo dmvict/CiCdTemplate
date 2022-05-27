@@ -10,13 +10,8 @@ jobs :
 
   # module2
 
-  build :
-    uses : Wandalen/RustModuleArena/.github/workflows/RustFull.yml@master
-    with :
-      manifest_path : 'module/module2/Cargo.toml'
-
-  build_fast :
-    uses : Wandalen/RustModuleArena/.github/workflows/RustFast.yml@master
+  test :
+    uses : Wandalen/RustModuleArena/.github/workflows/StandardRust.yml@master
     with :
       manifest_path : 'module/module2/Cargo.toml'
       module_name : 'module2'
