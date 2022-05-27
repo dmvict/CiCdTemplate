@@ -18,10 +18,9 @@ env :
 jobs :
 
   fast :
-    if : "!contains( github.event.head_commit.message, '!build' )
+    if : "!contains( github.event.head_commit.message, '!test' )
        && !startsWith( github.event.head_commit.message, 'Merge' )
        && contains( github.event.head_commit.message, inputs.module_name )"
-    # if : "contains( 'x', 'y' )"
     strategy :
       fail-fast : false
       matrix :
@@ -40,5 +39,3 @@ jobs :
       run : cargo test --manifest-path ${{ inputs.manifest_path }}
     # - name : Run all tests with each feature
     #   run : cargo hack test --manifest-path ${{ inputs.manifest_path }} --each-feature
-
-

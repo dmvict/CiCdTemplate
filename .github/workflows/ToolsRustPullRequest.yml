@@ -8,7 +8,7 @@ env :
 
 jobs :
 
-  check :
+  continue :
     runs-on : ubuntu-latest
     outputs :
       shouldRun : ${{ steps.run.outputs.shouldRun }}
@@ -31,13 +31,28 @@ jobs :
           echo "::set-output name=message::$latest_commit_message"
       - name : Exit with fail
         id : run
-        # if : "!contains( steps.message.outputs.message, '!build' ) && !startsWith( steps.message.outputs.message, 'Merge ' )"
-        if : "startsWith( steps.message.outputs.message, 'Merge ' )"
-        run : echo "::set-output name=shouldRun::false"
+        if : "startsWith( steps.message.outputs.message, 'Merge ' ) || !contains( github.event.head_commit.message, '!test' )"
+        run : |
+          echo "::set-output name=shouldRun::false"
+          # echo "::error"
+          # echo "::error file=error::Use keyword "!test" in commit message"
+          exit 1
 
-  build :
-    needs : check
-    if : ${{ needs.check.outputs.shouldRun != 'false' }}
-    uses : Wandalen/wTools/.github/workflows/RustFast.yml@master
-    with :
-      manifest_path : './Cargo.toml'
+  # build :
+  #   needs : continue
+  #   if : ${{ needs.check.outputs.shouldRun != 'false' }}
+  #   uses : Wandalen/wTools/.github/workflows/RustFast.yml@master
+  #   with :
+  #     manifest_path : './Cargo.toml'
+
+  # no_build :
+  #   needs : check
+  #   runs-on : ubuntu-latest
+  #   if : ${{ needs.check.outputs.shouldRun == 'false' }}
+  #   steps :
+  #   - name : Exit with fail
+  #     id : exit
+  #     run : |
+  #       echo "::error::!test was not specified"
+  #       # exit 1
+
