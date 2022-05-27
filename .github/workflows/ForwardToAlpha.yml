@@ -1,0 +1,15 @@
+
+name : forward_to_beta
+
+on :
+  push
+
+jobs :
+
+  forward :
+    uses : Wandalen/RustModuleCd/.github/workflows/Forward.yml@master
+    with :
+      src_branch : '${{ github.ref }}'
+      dst_branch : 'alpha'
+    secrets :
+      PRIVATE_GITHUB_BOT_TOKEN : '${{ secrets.PRIVATE_GITHUB_BOT_TOKEN }}'
