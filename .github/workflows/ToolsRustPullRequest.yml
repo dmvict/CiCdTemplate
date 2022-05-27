@@ -42,3 +42,11 @@ jobs :
     uses : Wandalen/wTools/.github/workflows/RustFast.yml@master
     with :
       manifest_path : './Cargo.toml'
+
+  no_build :
+    needs : check
+    if : ${{ needs.check.outputs.shouldRun == 'false' }}
+    steps :
+    - name : Exit with fail
+      run : echo "::error"
+
