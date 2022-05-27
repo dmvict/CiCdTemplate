@@ -9,8 +9,7 @@ jobs :
   forward :
     uses : Wandalen/RustModuleCd/.github/workflows/Forward.yml@master
     with :
-      src_branch : '${{ github.ref }}'
-      # src_branch : experiment1
+      src_branch : '${{ github.ref_name }}'
       dst_branch : 'alpha'
     secrets :
       PRIVATE_GITHUB_BOT_TOKEN : '${{ secrets.PRIVATE_GITHUB_BOT_TOKEN }}'
