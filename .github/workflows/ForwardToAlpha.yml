@@ -1,5 +1,5 @@
 
-name : forward_to_beta
+name : forward_to_alpha
 
 on :
   push
@@ -13,3 +13,5 @@ jobs :
       dst_branch : 'alpha'
     secrets :
       PRIVATE_GITHUB_BOT_TOKEN : '${{ secrets.PRIVATE_GITHUB_BOT_TOKEN }}'
+
+
