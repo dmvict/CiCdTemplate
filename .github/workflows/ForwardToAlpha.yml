@@ -2,7 +2,15 @@
 name : forward_to_alpha
 
 on :
-  push
+  push :
+    branches :
+      - '*'
+      - '*/*'
+      - '**'
+      - '!master'
+      - '!main'
+      - '!alpha'
+      - '!beta'
 
 jobs :
 
