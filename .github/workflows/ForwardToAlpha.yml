@@ -13,3 +13,4 @@ jobs :
       dst_branch : 'alpha'
     secrets :
       PRIVATE_GITHUB_BOT_TOKEN : '${{ secrets.PRIVATE_GITHUB_BOT_TOKEN }}'
+
