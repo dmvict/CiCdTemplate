@@ -20,7 +20,7 @@ jobs :
   fast :
     if : "!contains( github.event.head_commit.message, '!build' )
        && !startsWith( github.event.head_commit.message, 'Merge' )
-       && contains( github.event.head_commit.message, 'xxx' )"
+       && contains( github.event.head_commit.message, inputs.module_name )"
     # if : "contains( 'x', 'y' )"
     strategy :
       fail-fast : false
