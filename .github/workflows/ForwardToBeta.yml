@@ -3,10 +3,10 @@ name : forward_to_alpha
 
 on :
   workflow_run :
-    workflows : [ "test" ]
+    workflows : [ 'test' ]
     types : [ completed ]
     branches:
-      - "alpha"
+      - 'alpha'
 
 jobs :
 
