@@ -14,5 +14,6 @@ jobs :
     with :
       src_branch : 'beta'
       dst_branch : '${{ github.base_ref }}'
+    # secrets : inherit
+    secrets :
       PRIVATE_GITHUB_BOT_TOKEN : '${{ secrets.PRIVATE_GITHUB_BOT_TOKEN }}'
-
