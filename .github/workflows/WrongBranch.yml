@@ -16,6 +16,10 @@ on :
       dst_branch :
         required : true
         type : string
+    secrets :
+      PRIVATE_GITHUB_BOT_TOKEN :
+        description : 'Github bot token'
+        required : true
 
 env :
   CARGO_TERM_COLOR : always
