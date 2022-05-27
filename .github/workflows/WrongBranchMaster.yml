@@ -13,5 +13,5 @@ jobs :
     uses : Wandalen/RustModuleCd/.github/workflows/WrongBranch.yml@master
     with :
       src_branch : 'beta'
-      dst_branch : ${{ github.base_ref }}
+      dst_branch : '${{ github.base_ref }}'
       PRIVATE_GITHUB_BOT_TOKEN : ${{ secrets.PRIVATE_GITHUB_BOT_TOKEN }}
