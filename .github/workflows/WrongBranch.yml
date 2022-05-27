@@ -1,5 +1,5 @@
 
-name : Wrong Branch
+name : wrong_branch
 
 on :
   pull_request_target :
@@ -25,6 +25,7 @@ jobs :
           GITHUB_TOKEN : ${{ secrets.PRIVATE_GITHUB_BOT_TOKEN }}
         with :
           target : master
+          exclude: wtools-bot:beta
           comment : |
             To save the application stability the repository uses a system to forward changes from an unstable branch to a stable.
             The unstable branch is `alpha`. All user pull requests should be opened to this branch.
@@ -33,8 +34,9 @@ jobs :
 
             The pull request was automatically converted to draft. Please, change base branch taking into account the described system `alpha -> beta -> master`.
       - name : Convert to draft
-        if : ${{ steps.validation.outputs.wrong_branch == 'true' }}
+        # if : ${{ steps.validation.outputs.wrong_branch == 'true' }}
         uses : raviraipuria/convert-to-draft@v1.0.1
         with :
           repo-token : ${{ secrets.PRIVATE_GITHUB_BOT_TOKEN }}
           days-before-convert-draft : 0
+

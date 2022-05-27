@@ -1,5 +1,5 @@
 
-name : rust_pr
+name : rust_pull_request
 
 on : [ pull_request ]
 
