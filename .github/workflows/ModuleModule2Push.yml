@@ -11,7 +11,7 @@ jobs :
   # module2
 
   test :
-    uses : Wandalen/RustModuleCd/.github/workflows/StandardRust.yml@master
+    uses : Wandalen/RustModuleCd/.github/workflows/StandardRustPush.yml@master
     with :
       manifest_path : 'module/module2/Cargo.toml'
       module_name : 'module2'
