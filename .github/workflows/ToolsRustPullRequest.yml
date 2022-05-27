@@ -35,8 +35,8 @@ jobs :
         run : |
           echo "::set-output name=shouldRun::false"
           # echo "::error"
-          echo "::error file=error::Use keyword "!test" in commit message"
-          # exit 1
+          # echo "::error file=error::Use keyword "!test" in commit message"
+          exit 1
 
   build :
     needs : check
