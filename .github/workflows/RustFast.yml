@@ -7,6 +7,9 @@ on :
       manifest_path :
         required : true
         type : string
+      module_name :
+        required : true
+        type : string
 
 env :
   CARGO_TERM_COLOR : always
@@ -15,7 +18,7 @@ env :
 jobs :
 
   fast :
-
+    if : "!contains( github.event.head_commit.message, '!test' ) && !startsWith( github.event.head_commit.message, 'Merge' ) && contains( github.event.head_commit.message, ${{ inputs.module_name }} )"
     strategy :
       fail-fast : false
       matrix :
