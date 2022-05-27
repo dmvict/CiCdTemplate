@@ -45,9 +45,9 @@ jobs :
 
   no_build :
     needs : check
+    runs-on : ubuntu-latest
     if : ${{ needs.check.outputs.shouldRun == 'false' }}
     steps :
     - name : Exit with fail
       id : exit
       run : echo "::error"
-
