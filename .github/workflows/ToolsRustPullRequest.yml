@@ -35,7 +35,7 @@ jobs :
         run : |
           echo "::set-output name=shouldRun::false"
           # echo "::error"
-          echo "::error::!test was not specified"
+          echo "::error file=error::Use keyword "!test" in commit message"
           # exit 1
 
   build :
@@ -45,13 +45,13 @@ jobs :
     with :
       manifest_path : './Cargo.toml'
 
-  no_build :
-    needs : check
-    runs-on : ubuntu-latest
-    if : ${{ needs.check.outputs.shouldRun == 'false' }}
-    steps :
-    - name : Exit with fail
-      id : exit
-      run : |
-        echo "::error::!test was not specified"
-        # exit 1
+  # no_build :
+  #   needs : check
+  #   runs-on : ubuntu-latest
+  #   if : ${{ needs.check.outputs.shouldRun == 'false' }}
+  #   steps :
+  #   - name : Exit with fail
+  #     id : exit
+  #     run : |
+  #       echo "::error::!test was not specified"
+  #       # exit 1
