@@ -15,7 +15,7 @@ on :
 jobs :
 
   forward :
-    uses : Wandalen/RustModuleCd/.github/workflows/Forward.yml@master
+    uses : Wandalen/RustModuleCd/.github/workflows/AutoPr.yml@master
     with :
       src_branch : '${{ github.ref_name }}'
       dst_branch : 'alpha'

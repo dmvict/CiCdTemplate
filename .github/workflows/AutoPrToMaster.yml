@@ -8,7 +8,7 @@ on :
 jobs :
 
   forward :
-    uses : Wandalen/RustModuleCd/.github/workflows/Forward.yml@master
+    uses : Wandalen/RustModuleCd/.github/workflows/AutoPr.yml@master
     with :
       src_branch : 'beta'
       dst_branch : 'master'
