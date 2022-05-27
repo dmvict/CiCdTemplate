@@ -31,7 +31,7 @@ jobs :
           echo "::set-output name=message::$latest_commit_message"
       - name : Exit with fail
         id : run
-        if : "startsWith( steps.message.outputs.message, 'Merge ' ) || !contains( github.event.head_commit.message, '!build' )"
+        if : "startsWith( steps.message.outputs.message, 'Merge ' ) || !contains( github.event.head_commit.message, '!test' )"
         run : |
           echo "::set-output name=shouldRun::false"
           # echo "::error"
@@ -55,3 +55,4 @@ jobs :
   #     run : |
   #       echo "::error::!test was not specified"
   #       # exit 1
+
