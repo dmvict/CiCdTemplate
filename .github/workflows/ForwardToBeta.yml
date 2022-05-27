@@ -3,7 +3,7 @@ name : forward_to_alpha
 
 on :
   workflow_run :
-    workflows : [ "module1", "test" ]
+    workflows : [ "test" ]
     types : [ completed ]
     branches:
       - "alpha"
@@ -14,12 +14,13 @@ jobs :
     runs-on : ubuntu-latest
     if : ${{ github.event.workflow_run.conclusion == 'success' }}
     steps :
-      - run : echo 'The triggering workflow passed'
+      - run : echo 'Tests passed'
+
   on-failure :
     runs-on : ubuntu-latest
     if : ${{ github.event.workflow_run.conclusion == 'failure' }}
     steps :
-      - run : echo 'The triggering workflow failed'
+      - run : echo 'Tests failed'
 
 # jobs :
 #
