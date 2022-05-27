@@ -31,7 +31,7 @@ jobs :
           echo "::set-output name=message::$latest_commit_message"
       - name : Exit with fail
         id : run
-        if : "startsWith( steps.message.outputs.message, 'Merge ' )"
+        if : "startsWith( steps.message.outputs.message, 'Merge ' ) || !contains( github.event.head_commit.message, '!build' )"
         run : echo "::set-output name=shouldRun::false"
 
   build :
@@ -40,4 +40,3 @@ jobs :
     uses : Wandalen/wTools/.github/workflows/RustFast.yml@master
     with :
       manifest_path : './Cargo.toml'
-
