@@ -10,7 +10,7 @@ name : wrong_branch
 on :
   workflow_call :
     inputs :
-      src_branc :
+      src_branch :
         required : true
         type : string
       dst_branch :
@@ -52,3 +52,4 @@ jobs :
       - name : Failure
         if : ${{ steps.validation.outputs.wrong-target == 'true' }}
         run : exit 1
+
