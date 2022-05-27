@@ -52,4 +52,3 @@ jobs :
       - name : Failure
         if : ${{ steps.validation.outputs.wrong-target == 'true' }}
         run : exit 1
-
