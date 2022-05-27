@@ -34,8 +34,6 @@ jobs :
         if : "startsWith( steps.message.outputs.message, 'Merge ' ) || !contains( github.event.head_commit.message, '!test' )"
         run : |
           echo "::set-output name=shouldRun::false"
-          # echo "::error"
-          # echo "::error file=error::Use keyword "!test" in commit message"
           exit 1
 
   # build :
