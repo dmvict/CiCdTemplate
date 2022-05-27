@@ -40,3 +40,4 @@ jobs :
         with :
           repo-token : ${{ secrets.PRIVATE_GITHUB_BOT_TOKEN }}
           days-before-convert-draft : 0
+
