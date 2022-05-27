@@ -8,7 +8,7 @@ env :
 
 jobs :
 
-  # wtools
+  # module2
 
   build :
     uses : Wandalen/RustModuleArena/.github/workflows/RustFull.yml@master
