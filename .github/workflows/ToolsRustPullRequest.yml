@@ -8,7 +8,7 @@ env :
 
 jobs :
 
-  check :
+  continue :
     runs-on : ubuntu-latest
     outputs :
       shouldRun : ${{ steps.run.outputs.shouldRun }}
@@ -39,7 +39,7 @@ jobs :
           exit 1
 
   build :
-    needs : check
+    needs : continue
     if : ${{ needs.check.outputs.shouldRun != 'false' }}
     uses : Wandalen/wTools/.github/workflows/RustFast.yml@master
     with :
