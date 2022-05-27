@@ -13,10 +13,10 @@ jobs :
   build :
     uses : Wandalen/RustModuleArena/.github/workflows/RustFull.yml@master
     with :
-      manifest_path : 'module/rust/module2/Cargo.toml'
+      manifest_path : 'module/module2/Cargo.toml'
 
   build_fast :
     if : "!contains( github.event.head_commit.message, '!test' ) && !startsWith( github.event.head_commit.message, 'Merge' ) && contains( github.event.head_commit.message, 'module2' )"
     uses : Wandalen/RustModuleArena/.github/workflows/RustFast.yml@master
     with :
-      manifest_path : 'module/rust/module2/Cargo.toml'
+      manifest_path : 'module/module2/Cargo.toml'
