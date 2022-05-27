@@ -1,5 +1,5 @@
 
-name : forward_to_beta
+name : auto_pr_to_beta
 
 on :
   push :
