@@ -16,13 +16,15 @@ jobs :
 
   full :
 
-    if : "contains( github.event.head_commit.message, '!test' ) || startsWith( github.event.head_commit.message, 'Merge' )"
+    if : "contains( github.event.head_commit.message, '!build' ) || startsWith( github.event.head_commit.message, 'Merge' )"
     strategy :
       fail-fast : false
       matrix :
         os : [ ubuntu-latest, windows-latest, macos-latest ]
     runs-on : ${{ matrix.os }}
+
     steps :
+
     - name : Install latest stable toolchain
       uses : actions-rs/toolchain@v1
       with :

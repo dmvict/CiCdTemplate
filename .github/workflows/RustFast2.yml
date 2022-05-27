@@ -7,6 +7,9 @@ on :
       manifest_path :
         required : true
         type : string
+      module_name :
+        required : true
+        type : string
 
 env :
   CARGO_TERM_COLOR : always
@@ -15,7 +18,7 @@ env :
 jobs :
 
   fast :
-    if : "!contains( github.event.head_commit.message, '!test' ) && !startsWith( github.event.head_commit.message, 'Merge' ) && contains( github.event.head_commit.message, 'wtools' )"
+    if : "!contains( github.event.head_commit.message, '!test' ) && !startsWith( github.event.head_commit.message, 'Merge' ) && contains( github.event.head_commit.message, ${{ inputs.module_name }} )"
     strategy :
       fail-fast : false
       matrix :
@@ -28,11 +31,11 @@ jobs :
         toolchain : stable
         override : true
     - uses : actions/checkout@v2
-    - name : Build
-      run : cargo build --manifest-path ${{ inputs.manifest_path }}
-    - name : Run all tests
-      run : cargo test --manifest-path ${{ inputs.manifest_path }}
     - name : Install cargo-hack
       run : cargo install cargo-hack
+    # - name : Build
+    #   run : cargo build --manifest-path ${{ inputs.manifest_path }}
+    - name : Run all tests
+      run : cargo test --manifest-path ${{ inputs.manifest_path }}
     - name : Run all tests with each feature
       run : cargo hack test --manifest-path ${{ inputs.manifest_path }} --each-feature
