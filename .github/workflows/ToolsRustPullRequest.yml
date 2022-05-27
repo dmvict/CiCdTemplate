@@ -35,8 +35,8 @@ jobs :
         run : |
           echo "::set-output name=shouldRun::false"
           # echo "::error"
-          echo "::error file=app.js,line=1,col=5,endColumn=7::Missing semicolon"
-          exit 1
+          echo "::error::!test was not specified"
+          # exit 1
 
   build :
     needs : check
@@ -53,5 +53,5 @@ jobs :
     - name : Exit with fail
       id : exit
       run : |
-        echo "::error file=app.js,line=1,col=5,endColumn=7::Missing semicolon"
-        exit 1
+        echo "::error::!test was not specified"
+        # exit 1
