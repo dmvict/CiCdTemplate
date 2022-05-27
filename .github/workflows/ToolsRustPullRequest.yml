@@ -34,7 +34,9 @@ jobs :
         if : "startsWith( steps.message.outputs.message, 'Merge ' ) || !contains( github.event.head_commit.message, '!build' )"
         run : |
           echo "::set-output name=shouldRun::false"
-          echo "::error"
+          # echo "::error"
+          echo "::error file=app.js,line=1,col=5,endColumn=7::Missing semicolon"
+          exit 1
 
   build :
     needs : check
@@ -50,4 +52,6 @@ jobs :
     steps :
     - name : Exit with fail
       id : exit
-      run : echo "::error"
+      run : |
+        echo "::error file=app.js,line=1,col=5,endColumn=7::Missing semicolon"
+        exit 1
