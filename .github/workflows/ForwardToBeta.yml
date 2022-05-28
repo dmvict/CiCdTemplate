@@ -1,0 +1,23 @@
+
+name : forward_to_alpha
+
+on :
+  workflow_run :
+    workflows : [ 'test' ]
+    types : [ completed ]
+    branches:
+      - 'alpha'
+
+jobs :
+
+  on-success :
+    runs-on : ubuntu-latest
+    if : ${{ github.event.workflow_run.conclusion == 'success' }}
+    steps :
+      - run : echo 'Tests passed'
+
+  on-failure :
+    runs-on : ubuntu-latest
+    if : ${{ github.event.workflow_run.conclusion == 'failure' }}
+    steps :
+      - run : echo 'Tests failed'
