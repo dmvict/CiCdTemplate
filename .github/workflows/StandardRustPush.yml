@@ -12,8 +12,8 @@ on :
         type : string
 
 concurrency :
-  group : standard_rust_push
-  # group : ${{ standard_rust_push }}_${{ github.ref }}
+  # group : standard_rust_push
+  group : standard_rust_push_${{ inputs.module_name }}_${{github.event.action}}
   cancel-in-progress : true
 
 env :
@@ -81,3 +81,6 @@ jobs :
     #   run : cargo test --manifest-path ${{ inputs.manifest_path }} --all-features
     # - name : Run all tests with each feature
     #   run : cargo hack test --manifest-path ${{ inputs.manifest_path }} --each-feature
+
+
+
