@@ -13,14 +13,14 @@ jobs :
   on-success :
     runs-on : ubuntu-latest
     if : ${{ github.event.workflow_run.conclusion == 'success' }} &&
-      ${{ github.event.action }} == 'workflow_run'
+      ${{ github.event.action == 'workflow_run' }}
     steps :
       - run : echo 'Tests passed'
 
   on-failure :
     runs-on : ubuntu-latest
     if : ${{ github.event.workflow_run.conclusion == 'failure' }} &&
-      ${{ github.event.action }} == 'workflow_run'
+      ${{ github.event.action == 'workflow_run' }}
     steps :
       - run : echo 'Tests failed'
 
