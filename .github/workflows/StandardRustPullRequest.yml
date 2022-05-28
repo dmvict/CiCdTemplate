@@ -10,8 +10,6 @@ jobs :
 
   tested :
     runs-on : ubuntu-latest
-    outputs :
-      shouldRun : ${{ steps.run.outputs.shouldRun }}
     steps :
       - name : List commits on the pull request
         run : |
@@ -31,7 +29,6 @@ jobs :
           echo "::set-output name=message::$latest_commit_message"
       - name : Exit with fail
         id : run
-        if : "startsWith( steps.message.outputs.message, 'Merge ' ) || !contains( steps.message.outputs.message, '!test' )"
+        if : "!startsWith( steps.message.outputs.message, 'Merge ' ) && !contains( steps.message.outputs.message, '!test' )"
         run : |
-          echo "::set-output name=shouldRun::false"
           exit 1
