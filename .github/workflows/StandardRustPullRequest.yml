@@ -6,6 +6,10 @@ on : [ pull_request ]
 env :
   CARGO_TERM_COLOR : always
 
+concurrency :
+  group : standard_rust_pull_request_${{ github.base_ref }}
+  cancel-in-progress : true
+
 jobs :
 
   tested :

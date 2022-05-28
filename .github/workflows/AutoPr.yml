@@ -16,6 +16,11 @@ on :
         description : 'Github bot token'
         required : true
 
+concurrency :
+
+  group : auto_pr_${{ inputs.src_branch }}_${{ inputs.dst_branch }}
+  cancel-in-progress : true
+
 jobs :
 
   build :
