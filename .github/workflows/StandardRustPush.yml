@@ -11,6 +11,11 @@ on :
         required : true
         type : string
 
+concurrency :
+  group : standard_rust_push
+  # group : ${{ standard_rust_push }}_${{ github.ref }}
+  cancel-in-progress : true
+
 env :
   CARGO_TERM_COLOR : always
   WITH_SMOKE : false
