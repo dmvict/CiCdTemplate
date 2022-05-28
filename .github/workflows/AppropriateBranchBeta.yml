@@ -1,5 +1,5 @@
 
-name : wrong_branch_master
+name : appropriate_branch_master
 
 on :
   pull_request_target :
@@ -8,8 +8,8 @@ on :
 
 jobs :
 
-  wrong_branch :
-    uses : Wandalen/RustModuleCd/.github/workflows/WrongBranch.yml@master
+  appropriate_branch :
+    uses : Wandalen/RustModuleCd/.github/workflows/AppropriateBranch.yml@master
     with :
       src_branch : 'alpha'
       dst_branch : '${{ github.base_ref }}'

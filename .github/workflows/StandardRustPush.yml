@@ -12,7 +12,7 @@ on :
         type : string
 
 concurrency :
-  group : standard_rust_push_${{ inputs.module_name }}_${{ github.event.action }}
+  group : standard_rust_push_${{ inputs.module_name }}_${{ github.action }}
   cancel-in-progress : true
 
 env :
