@@ -10,7 +10,7 @@ on :
 jobs :
 
   appropriate_branch :
-    uses : Wandalen/RustModuleCd/.github/workflows/AppropriateBranch.yml@master
+    uses : Wandalen/RustModuleCdCi/.github/workflows/AppropriateBranch.yml@master
     with :
       src_branch : 'beta'
       dst_branch : '${{ github.base_ref }}'
