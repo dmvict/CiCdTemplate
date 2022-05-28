@@ -21,3 +21,4 @@ jobs :
     if : ${{ github.event.workflow_run.conclusion == 'failure' }}
     steps :
       - run : echo 'Tests failed'
+
