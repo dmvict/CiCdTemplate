@@ -1,7 +1,8 @@
 
-name : Delete
+name : runs_clean
 
 on :
+
   workflow_dispatch :
     inputs :
       days :
@@ -10,7 +11,13 @@ on :
         type : number
         default : 0
 
+concurrency :
+
+  group : runs_clean
+  cancel-in-progress : true
+
 jobs :
+
   del_runs :
     runs-on : ubuntu-latest
     steps :
