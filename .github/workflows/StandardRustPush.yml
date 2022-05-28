@@ -14,7 +14,7 @@ on :
 
 concurrency :
 
-  group : standard_rust_push_${{ inputs.module_name }}_${{ github.action_ref }}
+  group : standard_rust_push_${{ inputs.module_name }}_${{ github.worklfow }}
   cancel-in-progress : true
 
 env :
