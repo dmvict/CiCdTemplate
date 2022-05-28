@@ -20,6 +20,11 @@ env :
 
   CARGO_TERM_COLOR : always
 
+concurrency :
+
+  group : appropraite_branch_${{ inputs.src_branch }}_${{ inputs.dst_branch }}
+  cancel-in-progress : true
+
 jobs :
 
   check :
