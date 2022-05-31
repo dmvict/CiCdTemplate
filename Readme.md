@@ -1,6 +1,6 @@
-# RustModuleArena
+# CiCdTemplate
 
-Arena for experiments with CD scripts
+Arena for experiments with CI/CD scripts
 
 ### Modules
 
