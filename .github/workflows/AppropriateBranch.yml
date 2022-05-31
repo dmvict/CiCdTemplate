@@ -48,12 +48,11 @@ jobs :
 
             The pull request was automatically converted to draft.
             Please, change base branch taking into account the described system `alpha -> beta -> master`.
-      - name : Convert to draft
+      - name: Convert to draft
         if : ${{ steps.validation.outputs.wrong-target == 'true' }}
-        uses : raviraipuria/convert-to-draft@v1.0.1
-        with :
-          repo-token : ${{ secrets.PRIVATE_GITHUB_BOT_TOKEN }}
-          days-before-convert-draft : 0
+        uses: voiceflow/draft-pr@latest
+        with:
+          token: ${{ secrets.PRIVATE_GITHUB_TOKEN }}
       - name : Failure
         if : ${{ steps.validation.outputs.wrong-target == 'true' }}
         run : exit 1
