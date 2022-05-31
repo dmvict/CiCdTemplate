@@ -42,12 +42,17 @@ jobs :
   tested :
     needs: check
     if : ${{ needs.check.outputs.shouldRun == 'true' }}
-    uses : Wandalen/RustModuleCdCi/.github/workflows/StandardRustPush.yml@master
-    with :
-      manifest_path : './Cargo.toml'
-      module_name : '.'
-
-
-
-
-
+    strategy :
+      fail-fast : false
+      matrix :
+        os : [ ubuntu-latest, windows-latest, macos-latest ]
+    runs-on : ${{ matrix.os }}
+    steps :
+      - name : Install latest stable toolchain
+        uses : actions-rs/toolchain@v1
+        with :
+          toolchain : stable
+          override : true
+      - uses : actions/checkout@v2
+      - name : Run all tests
+        run : cargo test
