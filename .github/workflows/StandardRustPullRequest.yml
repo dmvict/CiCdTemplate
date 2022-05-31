@@ -36,12 +36,12 @@ jobs :
           echo "::set-output name=message::$latest_commit_message"
       - name : Set output
         id: run
-        if : "startsWith( steps.message.outputs.message, 'Merge ' )"
-        run : echo "::set-output name=shouldRun::false"
+        if : "!startsWith( steps.message.outputs.message, 'Merge ' )"
+        run : echo "::set-output name=shouldRun::true"
 
   tested :
     needs: check
-    if : ${{ needs.check.outputs.shouldRun != 'false' }}
+    if : ${{ needs.check.outputs.shouldRun == 'true' }}
     uses : Wandalen/RustModuleCdCi/.github/workflows/StandardRustPush.yml@master
     with :
       manifest_path : './Cargo.toml'
