@@ -16,7 +16,8 @@ jobs :
     if : ${{ github.event.pull_request.head.repo.fork }}
     runs-on : ubuntu-latest
     outputs :
-      shouldRun : ${{ steps.run.outputs.shouldRun }}
+      commit_message : ${{ steps.message.outputs.message }}
+      should_run : ${{ steps.run.outputs.should_run }}
     steps :
       - name : List commits on the pull request
         run : |
@@ -37,22 +38,13 @@ jobs :
       - name : Set output
         id: run
         if : "!startsWith( steps.message.outputs.message, 'Merge ' )"
-        run : echo "::set-output name=shouldRun::true"
+        run : echo "::set-output name=should_run::true"
 
   tested :
     needs: check
-    if : ${{ needs.check.outputs.shouldRun == 'true' }}
-    strategy :
-      fail-fast : false
-      matrix :
-        os : [ ubuntu-latest, windows-latest, macos-latest ]
-    runs-on : ${{ matrix.os }}
-    steps :
-      - name : Install latest stable toolchain
-        uses : actions-rs/toolchain@v1
-        with :
-          toolchain : stable
-          override : true
-      - uses : actions/checkout@v2
-      - name : Run all tests
-        run : cargo test
+    if : ${{ needs.check.outputs.should_run == 'true' }}
+    uses : Wandalen/RustModuleCdCi/.github/workflows/StandardRustPush.yml@master
+    with :
+      manifest_path : './Cargo.toml'
+      module_name : ${{ needs.check.outputs.should_run }}
+      commit_message : ${{ needs.check.outputs.should_run }}
