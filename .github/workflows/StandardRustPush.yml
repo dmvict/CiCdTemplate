@@ -83,13 +83,3 @@ jobs :
         run : cargo install cargo-hack
       - name : Run tests with each feature
         run : cargo hack test --manifest-path ${{ inputs.manifest_path }} --each-feature
-
-  failure :
-    if : |
-      !contains( inputs.commit_message, '!test' )
-      && !startsWith( inputs.commit_message, 'Merge' )
-      && !contains( inputs.commit_message, inputs.module_name )
-    runs-on : ubuntu-latest
-    steps :
-      - name : Setup failed workflow for commit message with no testing
-        run : exit 1

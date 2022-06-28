@@ -1,0 +1,41 @@
+
+name : alpha
+
+on:
+  push:
+    branches: [ alpha ]
+
+jobs:
+  wait_for_modules :
+    runs-on : ubuntu-latest
+    steps :
+      - name : Waiting ...
+        uses : willgarcia/workflow-wait-action@main
+        with :
+          timeout : 6000
+          interval : 10
+          initial_delay : 30
+          workflows : |
+            module1
+            module2
+
+  check:
+    needs: wait_for_modules
+    strategy:
+      matrix:
+        modules:
+          - ModuleModule1Push
+          - ModuleModule2Push
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check workflow run status
+        id: check_ci
+        uses:  LASER-Yi/workflow-status@v0.1.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          workflow : ${{ matrix.modules }}.yml
+          event: push
+          branch: exp
+      - name: Check conclusion
+        if: ${{ steps.check_ci.outputs.conclusion == 'failure' }}
+        run: exit 1
