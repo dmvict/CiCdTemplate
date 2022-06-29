@@ -73,8 +73,8 @@ jobs :
         id : node_id
         run : |
           output=$(curl \
-          -H "Accept: application/vnd.github.v3+json" \
-          -H "Authorization: token "${{ secrets.GITHUB_TOKEN }}""} \
+          -H 'Accept: application/vnd.github.v3+json' \
+          -H 'Authorization: token ${{ secrets.GITHUB_TOKEN }}'} \
           https://api.github.com/repos/${{ github.repository }}/pulls/${{ steps.find.outputs.number }})
           echo $output
           node_id=$(curl \
