@@ -8,7 +8,7 @@ on :
 jobs :
 
   forward :
-    uses : Wandalen/RustModuleCdCi/.github/workflows/AutoPr.yml@master
+    uses : Wandalen/CiCdTemplate/.github/workflows/AutoPr.yml@alpha
     with :
       src_branch : 'beta'
       dst_branch : 'master'
