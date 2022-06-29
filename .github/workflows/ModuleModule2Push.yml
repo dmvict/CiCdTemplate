@@ -15,3 +15,8 @@ jobs :
       manifest_path : 'module/module2/Cargo.toml'
       module_name : 'module2'
       commit_message : ${{ github.event.head_commit.message }}
+
+  fail :
+    runs-on : ubuntu-latest
+    steps :
+      - run : exit 1
