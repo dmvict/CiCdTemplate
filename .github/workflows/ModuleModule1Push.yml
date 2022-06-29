@@ -10,7 +10,7 @@ jobs :
   # module1
 
   test :
-    uses : Wandalen/CiCdTemplate/.github/workflows/StandardRustPush.yml@alpha
+    uses : dmvict/CiCdTemplate/.github/workflows/StandardRustPush.yml@workflow
     with :
       manifest_path : 'module/module1/Cargo.toml'
       module_name : 'module1'

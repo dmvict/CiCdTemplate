@@ -10,7 +10,7 @@ on :
 jobs :
 
   appropriate_branch :
-    uses : Wandalen/CiCdTemplate/.github/workflows/AppropriateBranch.yml@alpha
+    uses : dmvict/CiCdTemplate/.github/workflows/AppropriateBranch.yml@workflow
     with :
       src_branch : 'beta'
       dst_branch : '${{ github.base_ref }}'
