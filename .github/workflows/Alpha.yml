@@ -20,16 +20,15 @@ jobs :
             NAMES="$NAMES $NAME"
           done;
           OUTPUT=$(sed 's/\s\+/\n/g' <<< $NAMES)
-          echo "$OUTPUT"
           echo "::set-output name=files::$OUTPUT"
       - id: workflow_names
         run: |
-          for WORKFLOW in ${{ steps.workflow_files.outputs.files }} ; do
-            NAME=$(cat .github/workflows/$WORKFLOW.yml | grep -G '^name :' | sed 's/name\s*:\s\+\(\S*\)/\1/')
+          WORKFLOWS=$(ls .github/workflows | grep Module)
+          for WORKFLOW in $WORKFLOWS ; do
+            NAME=$(cat .github/workflows/$WORKFLOW | grep -G '^name :' | sed 's/name\s*:\s\+\(\S*\)/\1/')
             NAMES="$NAMES $NAME"
           done;
           OUTPUT=$(sed 's/\s\+/\n/g' <<< $NAMES)
-          echo "$OUTPUT"
           echo "::set-output name=names::$OUTPUT"
 
   test :
