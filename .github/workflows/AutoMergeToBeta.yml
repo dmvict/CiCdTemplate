@@ -74,15 +74,17 @@ jobs :
         run : |
           echo ${{ steps.find.outputs.number }}
           echo ${{ github.repository }}
-          output=$(curl \
-          -H 'Accept: application/vnd.github.v3+json' \
-          -H 'Authorization: token ${{ secrets.PRIVATE_GITHUB_BOT_TOKEN }}'} \
-          https://api.github.com/repos/${{ github.repository }}/pulls/${{ steps.find.outputs.number }})
+          output=$(curl --request GET \
+          --url 'https://api.github.com/repos/${{ github.repository }}/pulls/${{ steps.find.outputs.number }}' \
+          --header 'Accept: application/vnd.github.v3+json' \
+          --header 'Authorization: token ${{ secrets.PRIVATE_GITHUB_BOT_TOKEN }}'} \
+          --header 'Content-Type: application/json')
           echo $output
-          node_id=$(curl \
-          -H "Accept: application/vnd.github.v3+json" \
-          -H "Authorization: token "${{ secrets.GITHUB_TOKEN }}""} \
-          https://api.github.com/repos/${{ github.repository }}/pulls/${{ steps.find.outputs.number }} \
+          node_id=$(curl --request GET \
+          --url 'https://api.github.com/repos/${{ github.repository }}/pulls/${{ steps.find.outputs.number }}' \
+          --header 'Accept: application/vnd.github.v3+json' \
+          --header 'Authorization: token ${{ secrets.PRIVATE_GITHUB_BOT_TOKEN }}'} \
+          --header 'Content-Type: application/json' \
           | jq -r .node_id)
           echo $node_id
           echo "::set-output name=id::$node_id"
