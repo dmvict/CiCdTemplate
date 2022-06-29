@@ -9,14 +9,17 @@ jobs :
 
   # module2
 
-  test :
-    uses : dmvict/CiCdTemplate/.github/workflows/StandardRustPush.yml@workflow
-    with :
-      manifest_path : 'module/module2/Cargo.toml'
-      module_name : 'module2'
-      commit_message : ${{ github.event.head_commit.message }}
+  # test :
+  #   uses : dmvict/CiCdTemplate/.github/workflows/StandardRustPush.yml@workflow
+  #   with :
+  #     manifest_path : 'module/module2/Cargo.toml'
+  #     module_name : 'module2'
+  #     commit_message : ${{ github.event.head_commit.message }}
 
-  fail :
+  success :
+    if : |
+      contains( github.event.head_commit.message, 'module2' )
+      || contains( github.event.head_commit.message, '!test' )
     runs-on : ubuntu-latest
     steps :
-      - run : exit 1
+      - run : exit 0
