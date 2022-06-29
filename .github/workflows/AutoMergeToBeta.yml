@@ -72,9 +72,11 @@ jobs :
       - name : Get PR node id
         id : node_id
         run : |
+          echo ${{ steps.find.outputs.number }}
+          echo ${{ github.repository }}
           output=$(curl \
           -H 'Accept: application/vnd.github.v3+json' \
-          -H 'Authorization: token ${{ secrets.GITHUB_TOKEN }}'} \
+          -H 'Authorization: token ${{ secrets.PRIVATE_GITHUB_BOT_TOKEN }}'} \
           https://api.github.com/repos/${{ github.repository }}/pulls/${{ steps.find.outputs.number }})
           echo $output
           node_id=$(curl \
