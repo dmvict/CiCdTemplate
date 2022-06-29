@@ -1,0 +1,41 @@
+
+name: alpha
+on :
+  push :
+    branches: alpha
+
+jobs :
+  get:
+    outputs :
+      workflow_files: ${{ steps.workflow_files.outputs.files }}
+      workflow_names: ${{ steps.workflow_names.outputs.names }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - id: workflow_files
+        run: |
+          WORKFLOWS=$(ls .github/workflows | grep Module)
+          for WORKFLOW in $WORKFLOWS ; do
+            NAME=$(echo $WORKFLOW | sed 's/\(\S\+\).yml/\1/')
+            NAMES="$NAMES $NAME"
+          done;
+          OUTPUT=$(sed 's/\s\+/\n/g' <<< $NAMES)
+          echo "$OUTPUT"
+          echo "::set-output name=files::$OUTPUT"
+      - id: workflow_names
+        run: |
+          for WORKFLOW in ${{ steps.workflow_files.outputs.files }} ; do
+            NAME=$(cat .github/workflows/$WORKFLOW.yml | grep -G '^name :' | sed 's/name\s*:\s\+\(\S*\)/\1/')
+            NAMES="$NAMES $NAME"
+          done;
+          OUTPUT=$(sed 's/\s\+/\n/g' <<< $NAMES)
+          echo "$OUTPUT"
+          echo "::set-output name=names::$OUTPUT"
+
+  test :
+    needs : get
+    uses : dmvict/CiCdTemplate/.github/workflows/Exp.yml@alpha
+    with :
+      matrix : '{ "modules" : ${{ needs.get.outputs.workflow_files }} }'
+      modules : ${{ needs.get.outputs.workflow_names }}
+
