@@ -27,6 +27,8 @@ jobs :
         modules :
           - ModuleModule1Push
           - ModuleModule2Push
+    outputs :
+      has_succeeded_runs : ${{ steps.success.outputs.success }}
     runs-on : ubuntu-latest
     steps :
       - name : Check workflow run status
@@ -36,14 +38,21 @@ jobs :
           token : ${{ secrets.GITHUB_TOKEN }}
           workflow : ${{ matrix.modules }}.yml
           event : push
-          branch : ${{ github.ref_name }}
-      - name : Check conclusion
+          branch : alpha
+      - name : Check failure conclusion
         if : ${{ steps.check_ci.outputs.conclusion == 'failure' }}
         run : exit 1
+      - name : Check cancelled conclusion
+        if : ${{ steps.check_ci.outputs.conclusion == 'cancelled' }}
+        run : exit 1
+      - name : Check success conclusion and setup output
+        if : ${{ steps.check_ci.outputs.conclusion == 'success' }}
+        id : success
+        run: echo "::set-output name=success::true"
 
   merge :
     needs : check
-    if : ${{ success() }}
+    if : ${{ success() && needs.check.outputs.has_succeeded_runs == 'true' }}
     runs-on : ubuntu-latest
     steps :
       - name : Find PR number for current commit
@@ -61,7 +70,9 @@ jobs :
 
   convert_to_draft :
     needs : check
-    if : ${{ failure() || cancelled() }}
+    if : |
+      failure()
+      || needs.check.outputs.has_succeeded_runs != 'true'
     runs-on : ubuntu-latest
     steps :
       - name : Find PR number for current commit
@@ -72,14 +83,6 @@ jobs :
       - name : Get PR node id
         id : node_id
         run : |
-          echo ${{ steps.find.outputs.number }}
-          echo ${{ github.repository }}
-          output=$(curl --request GET \
-          --url 'https://api.github.com/repos/${{ github.repository }}/pulls/${{ steps.find.outputs.number }}' \
-          --header 'Accept: application/vnd.github.v3+json' \
-          --header 'Authorization: token ${{ secrets.PRIVATE_GITHUB_BOT_TOKEN }}' \
-          --header 'Content-Type: application/json')
-          echo $output
           node_id=$(curl --request GET \
           --url 'https://api.github.com/repos/${{ github.repository }}/pulls/${{ steps.find.outputs.number }}' \
           --header 'Accept: application/vnd.github.v3+json' \
@@ -92,5 +95,6 @@ jobs :
         if : ${{ success() }}
         uses : voiceflow/draft-pr@latest
         with :
-          token : ${{ secrets.PRIVATE_GITHUB_BOT_TOKEN}}
+          token : ${{ secrets.PRIVATE_GITHUB_BOT_TOKEN }}
           pull-request-node-id : ${{ steps.node_id.outputs.id }}
+
