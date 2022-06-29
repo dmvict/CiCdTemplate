@@ -8,6 +8,8 @@ Arena for experiments with CI/CD scripts
 
 ### Rust tools
 
+[![alpha](https://img.shields.io/github/workflow/status/Wandalen/CiCdTemplate/auto_merge_to_beta?label=alpha&logo=github)](https://github.com/Wandalen/CiCdTemplate/actions/workflows/AutoMergeToBeta.yml)
+
 <!-- {{# generate.modules_index{} #}} -->
 
 | Module | Stability | Master | Alpha | Docs | Sample |
