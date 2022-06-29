@@ -36,8 +36,11 @@ jobs :
           workflow : ${{ matrix.modules }}.yml
           event : push
           branch : alpha
-      - name : Check conclusion
+      - name : Check failure conclusion
         if : ${{ steps.check_ci.outputs.conclusion == 'failure' }}
+        run : exit 1
+      - name : Check cancelled conclusion
+        if : ${{ steps.check_ci.outputs.conclusion == 'cancelled' }}
         run : exit 1
 
   merge :
