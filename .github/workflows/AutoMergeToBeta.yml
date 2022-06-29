@@ -26,6 +26,8 @@ jobs :
         modules :
           - ModuleModule1Push
           - ModuleModule2Push
+    outputs :
+      has_succeeded_runs : ${{ steps.success.outputs.success }}
     runs-on : ubuntu-latest
     steps :
       - name : Check workflow run status
@@ -42,10 +44,14 @@ jobs :
       - name : Check cancelled conclusion
         if : ${{ steps.check_ci.outputs.conclusion == 'cancelled' }}
         run : exit 1
+      - name : Check success conclusion and setup output
+        if : ${{ steps.check_ci.outputs.conclusion == 'success' }}
+        id : success
+        run: echo "::set-output name=success::true"
 
   merge :
     needs : check
-    if : ${{ success() }}
+    if : ${{ success() && needs.check.outputs.has_succeeded_runs == 'true' }}
     runs-on : ubuntu-latest
     steps :
       - name : Find PR number for current commit
@@ -63,7 +69,9 @@ jobs :
 
   convert_to_draft :
     needs : check
-    if : ${{ failure() || cancelled() }}
+    if : |
+      failure()
+      || needs.check.outputs.has_succeeded_runs != 'true'
     runs-on : ubuntu-latest
     steps :
       - name : Find PR number for current commit

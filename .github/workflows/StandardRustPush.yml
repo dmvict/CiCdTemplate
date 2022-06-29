@@ -49,7 +49,7 @@ jobs :
         uses : Wandalen/wretry.action@master
         with :
           action : actions-rs/toolchain@v1
-          with :
+          with : |
             toolchain : stable
             override : true
           attempt_limit : 3
@@ -74,7 +74,7 @@ jobs :
         uses : Wandalen/wretry.action@master
         with :
           action : actions-rs/toolchain@v1
-          with :
+          with : |
             toolchain : stable
             override : true
           attempt_limit : 3
@@ -86,7 +86,7 @@ jobs :
         uses : Wandalen/wretry.action@master
         with :
           action : actions-rs/toolchain@v1
-          with :
+          with : |
             toolchain : nightly
             override : true
           attempt_limit : 3
