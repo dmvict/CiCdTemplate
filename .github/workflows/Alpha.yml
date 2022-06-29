@@ -20,9 +20,10 @@ jobs :
             NAMES="$NAMES $NAME"
           done;
           NAMES=$(sed 's/\s\+/\n/g' <<< $NAMES)
-          output=$(echo $NAMES | jq -R '[.]' | jq -s -c 'add')
-          echo "::set-output name=files::$output"
-      - run: echo ${{ steps.workflow_files.outputs.files }}
+          OUTPUT=$(echo -e "$NAMES" | jq -R '[.]' | jq -s -c 'add')
+          echo "::set-output name=files::$OUTPUT"
+          echo -e "::set-output name=files2::$NAMES"
+      - run: echo ${{ steps.workflow_files.outputs.files2 }}
       - id: workflow_names
         run: |
           WORKFLOWS=$(ls .github/workflows | grep Module)

@@ -16,7 +16,9 @@ jobs:
     if : ${{ startsWith( github.ref, 'refs/heads' ) }}
     runs-on : ubuntu-latest
     steps :
-      - run: echo "${{ inputs.modules }}"
+      - id : multiline 
+        run: |
+          OUTPUT=$(echo ${{ inputs.modules }} | sed 's/\s\+/\n/g')
       - name : Waiting ...
         uses : willgarcia/workflow-wait-action@main
         with :
