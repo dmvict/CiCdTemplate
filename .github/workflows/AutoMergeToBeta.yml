@@ -7,6 +7,7 @@ on :
 
 jobs :
   wait_for_modules :
+    if : ${{ startsWith( github.ref, 'refs/heads' ) }}
     runs-on : ubuntu-latest
     steps :
       - name : Waiting ...
@@ -35,7 +36,7 @@ jobs :
           token : ${{ secrets.GITHUB_TOKEN }}
           workflow : ${{ matrix.modules }}.yml
           event : push
-          branch : exp
+          branch : ${{ github.ref_name }}
       - name : Check conclusion
         if : ${{ steps.check_ci.outputs.conclusion == 'failure' }}
         run : exit 1
