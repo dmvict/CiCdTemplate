@@ -35,7 +35,7 @@ jobs :
     needs : get
     runs-on : ubuntu-latest
     steps :
-      - run : echo '{ "modules" : ${{ needs.get.outputs.workflow_files }} }'
+      - run : echo ${{ needs.get.outputs.workflow_files }}
       - run: echo ${{ needs.get.outputs.workflow_names }}
   # test :
   #   needs : get
