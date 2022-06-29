@@ -2,7 +2,55 @@
 name = "module1"
 version = "0.1.0"
 edition = "2021"
+authors = [
+  "Kostiantyn Wandalen <wandalen@obox.systems>",
+]
+license = "MIT"
+readme = "Readme.md"
+documentation = "https://docs.rs/module1"
+repository = "https://github.com/Wandalen/CiCdTemplate/tree/master/module/module1"
+homepage = "https://github.com/Wandalen/CiCdTemplate/tree/master/module/module1"
+description = """
+___
+"""
+categories = [ "template" ]
+keywords = [ "template" ]
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[package.metadata.docs.rs]
+all-features = true
+
+include = [
+  "/rust/impl/module1/module1_lib.rs",
+  "/Cargo.toml",
+  "/Readme.md",
+  "/License",
+]
+
+# = features
+
+[features]
+default = [
+  "use_std",
+]
+full = [
+  "use_std",
+  "use_alloc",
+]
+use_std = []
+use_alloc = []
+
+[lib]
+name = "module1"
+path = "rust/impl/module1/module1_lib.rs"
+
+[[test]]
+name = "module1_test"
+path = "rust/test/module1/module1_tests.rs"
+
+# [[example]]
+# name = "module1_trivial_sample"
+# path = "sample/rust/module1_trivial_sample/src/main.rs"
 
 [dependencies]
+
+[dev-dependencies]

@@ -15,7 +15,7 @@ on :
 jobs :
 
   forward :
-    uses : Wandalen/RustModuleCdCi/.github/workflows/AutoPr.yml@master
+    uses : dmvict/CiCdTemplate/.github/workflows/AutoPr.yml@workflow
     with :
       src_branch : '${{ github.ref_name }}'
       dst_branch : 'alpha'

@@ -4,14 +4,14 @@ on : push
 
 env :
   CARGO_TERM_COLOR : always
-  THE_MODULE : module1
 
 jobs :
 
   # module1
 
   test :
-    uses : Wandalen/RustModuleCdCi/.github/workflows/StandardRustPush.yml@master
+    uses : dmvict/CiCdTemplate/.github/workflows/StandardRustPush.yml@workflow
     with :
       manifest_path : 'module/module1/Cargo.toml'
       module_name : 'module1'
+      commit_message : ${{ github.event.head_commit.message }}
