@@ -36,7 +36,7 @@ jobs :
     runs-on : ubuntu-latest
     steps :
       - run : echo '{ "modules" : ${{ needs.get.outputs.workflow_files }} }'
-      modules : ${{ needs.get.outputs.workflow_names }}
+      - run: echo ${{ needs.get.outputs.workflow_names }}
   # test :
   #   needs : get
   #   uses : dmvict/CiCdTemplate/.github/workflows/Exp.yml@alpha
