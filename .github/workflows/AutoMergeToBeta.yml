@@ -35,7 +35,7 @@ jobs :
           token : ${{ secrets.GITHUB_TOKEN }}
           workflow : ${{ matrix.modules }}.yml
           event : push
-          branch : exp
+          branch : alpha
       - name : Check conclusion
         if : ${{ steps.check_ci.outputs.conclusion == 'failure' }}
         run : exit 1
@@ -81,5 +81,6 @@ jobs :
         if : ${{ success() }}
         uses : voiceflow/draft-pr@latest
         with :
-          token : ${{ secrets.PRIVATE_GITHUB_TOKEN }}
+          token : ${{ secrets.PRIVATE_GITHUB_BOT_TOKEN }}
           pull-request-node-id : ${{ steps.node_id.outputs.id }}
+
