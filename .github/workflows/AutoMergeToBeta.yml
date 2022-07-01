@@ -12,9 +12,9 @@ jobs :
       - name : Waiting ...
         uses : willgarcia/workflow-wait-action@main
         with :
-          timeout : 6000
-          interval : 10
-          initial_delay : 30
+          timeout : 21600
+          interval : 60
+          initial_delay : 60
           workflows : |
             module1
             module2
