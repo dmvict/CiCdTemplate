@@ -6,7 +6,35 @@ on :
     branches : [ alpha ]
 
 jobs :
+
+  get_modules:
+    outputs :
+      workflow_files: ${{ steps.workflow_files.outputs.files }}
+      workflow_names: ${{ steps.workflow_names.outputs.names }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - id: workflow_files
+        run: |
+          WORKFLOWS=$(ls .github/workflows | grep Module)
+          for WORKFLOW in $WORKFLOWS ; do
+            NAME=$(echo $WORKFLOW | sed 's/\(\S\+\).yml/\1/')
+            NAMES="$NAMES $NAME"
+          done;
+          NAMES=$(sed 's/\s\+/\n/g' <<< $NAMES)
+          OUTPUT=$(echo "$NAMES" | jq -R -s -c 'split("\n")[1:-1]')
+          echo "::set-output name=files::{\"modules\":$OUTPUT}"
+      - id: workflow_names
+        run: |
+          WORKFLOWS=$(ls .github/workflows | grep Module)
+          for WORKFLOW in $WORKFLOWS ; do
+            NAME=$(cat .github/workflows/$WORKFLOW | grep -G '^name :' | sed 's/name\s*:\s\+\(\S*\)/\1/')
+            NAMES="$NAMES%0A$NAME"
+          done;
+          echo "::set-output name=names::$NAMES"
+
   wait_for_modules :
+    needs : get_modules
     runs-on : ubuntu-latest
     steps :
       - name : Waiting ...
@@ -15,17 +43,14 @@ jobs :
           timeout : 21600
           interval : 60
           initial_delay : 60
-          workflows : |
-            module1
-            module2
+          workflows : ${{ needs.get_modules.outputs.workflow_names }}
 
   check :
-    needs : wait_for_modules
+    needs :
+      - get_modules
+      - wait_for_modules
     strategy :
-      matrix :
-        modules :
-          - ModuleModule1Push
-          - ModuleModule2Push
+      matrix : ${{ fromJSON( needs.get_modules.outputs.workflow_files ) }}
     outputs :
       has_succeeded_runs : ${{ steps.success.outputs.success }}
     runs-on : ubuntu-latest
@@ -66,33 +91,4 @@ jobs :
           github-token: ${{ secrets.PRIVATE_GITHUB_BOT_TOKEN }}
           number: ${{ steps.find.outputs.number }}
           method: merge
-
-  convert_to_draft :
-    needs : check
-    if : |
-      failure()
-      || needs.check.outputs.has_succeeded_runs != 'true'
-    runs-on : ubuntu-latest
-    steps :
-      - name : Find PR number for current commit
-        uses : jwalton/gh-find-current-pr@v1
-        id : find
-        with :
-          state: open
-      - name : Get PR node id
-        id : node_id
-        run : |
-          node_id=$(curl --request GET \
-          --url 'https://api.github.com/repos/${{ github.repository }}/pulls/${{ steps.find.outputs.number }}' \
-          --header 'Accept: application/vnd.github.v3+json' \
-          --header 'Authorization: token ${{ secrets.PRIVATE_GITHUB_BOT_TOKEN }}' \
-          --header 'Content-Type: application/json' \
-          | jq -r .node_id)
-          echo "::set-output name=id::$node_id"
-      - name: Convert to draft
-        if : ${{ success() }}
-        uses : voiceflow/draft-pr@latest
-        with :
-          token : ${{ secrets.PRIVATE_GITHUB_BOT_TOKEN }}
-          pull-request-node-id : ${{ steps.node_id.outputs.id }}
 
