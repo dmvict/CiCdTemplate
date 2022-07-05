@@ -27,8 +27,9 @@ jobs :
     runs-on : ubuntu-latest
     steps :
       - uses: actions/checkout@v2
-      - id: rules
-        run: |
+      - name : Get options
+        id : options_get
+        run : |
           WORKFLOWS=$(ls .github/workflows | grep ${{ inputs.pattern }})
           for WORKFLOW in $WORKFLOWS ; do
           CONTEXT=$(echo $WORKFLOW | sed 's/\(\S\+\).yml/{"context":"check (\1)","app_id":null}/')
@@ -37,9 +38,10 @@ jobs :
           CONTEXTS=$(sed 's/^%0A//g' <<< $CONTEXTS)
           CHECKS="[$(sed 's/%0A/,/g' <<< $CONTEXTS)]"
           echo "::set-output name=options::{\"required_status_checks\":{\"strict\":false,\"checks\":$CHECKS},\"enforce_admins\":false,\"required_pull_request_reviews\":null,\"restrictions\":null}"
-      - run : |
+      - name : Setup rules
+        run : |
           curl -X PUT \
           -H "Accept: application/vnd.github+json" \
-          -H "Authorization: token \"${{ secrets.PRIVATE_GITHUB_BOT_TOKEN }}\"" \
+          -H "Authorization: token ${{ secrets.PRIVATE_GITHUB_BOT_TOKEN }}" \
           https://api.github.com/repos/${{ github.repository }}/branches/${{ inputs.branch }}/protection \
-          -d ${{ steps.rules.outputs.options }}
+          -d '${{ steps.options_get.outputs.options }}'
