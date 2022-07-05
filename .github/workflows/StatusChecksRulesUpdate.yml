@@ -36,7 +36,7 @@ jobs :
             CONTEXTS="$CONTEXTS%0A$CONTEXT"
           done;
           CONTEXTS=$(sed 's/^%0A//g' <<< $CONTEXTS)
-          CHECKS="[$(sed 's/%0A/,/g' <<< $CONTEXTS)]"
+          CHECKS="[$(sed 's/%0A/,/g' <<< $CONTEXTS),{\"context\":\"merge\",\"app_id\":null}]"
           echo "::set-output name=options::{\"required_status_checks\":{\"strict\":false,\"checks\":$CHECKS},\"enforce_admins\":false,\"required_pull_request_reviews\":null,\"restrictions\":null}"
       - name : Setup rules
         run : |

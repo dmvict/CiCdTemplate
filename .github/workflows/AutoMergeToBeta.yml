@@ -76,9 +76,12 @@ jobs :
 
   merge :
     needs : check
-    if : ${{ success() && needs.check.outputs.has_succeeded_runs == 'true' }}
+    if : ${{ success() }}
     runs-on : ubuntu-latest
     steps :
+      - name : Failure if skipped
+        if : ${{ needs.check.outputs.has_succeeded_runs != 'true' }}
+        run : exit 1
       - name : Find PR number for current commit
         uses : jwalton/gh-find-current-pr@v1
         id : find
@@ -91,4 +94,3 @@ jobs :
           github-token: ${{ secrets.PRIVATE_GITHUB_BOT_TOKEN }}
           number: ${{ steps.find.outputs.number }}
           method: merge
-
