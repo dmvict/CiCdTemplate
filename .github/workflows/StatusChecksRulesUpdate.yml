@@ -20,10 +20,10 @@ jobs :
           WORKFLOWS=$(ls .github/workflows | grep Module)
           for WORKFLOW in $WORKFLOWS ; do
           CONTEXT=$(echo $WORKFLOW | sed 's/\(\S\+\).yml/{"context":"check (\1)","app_id":null}/')
-            CONTEXTS="$CONTEXTS%0A$CONTEXT"
+            CONTEXTS="$CONTEXTS,$CONTEXT"
           done;
-          CONTEXTS=$(sed 's/^%0A//g' <<< $CONTEXTS)
-          CHECKS="[$(sed 's/%0A/,/g' <<< $CONTEXTS),{\"context\":\"merge\",\"app_id\":null}]"
+          CONTEXTS=$(sed 's/^,//g' <<< $CONTEXTS)
+          CHECKS="[$CONTEXTS,{\"context\":\"merge\",\"app_id\":null}]"
           echo "::set-output name=options::{\"required_status_checks\":{\"strict\":false,\"checks\":$CHECKS},\"enforce_admins\":false,\"required_pull_request_reviews\":null,\"restrictions\":null}"
       - name : Setup rules
         run : |
