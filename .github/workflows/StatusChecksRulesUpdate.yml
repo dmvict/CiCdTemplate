@@ -1,20 +1,7 @@
 
 name : status_checks_rules_update
 
-on :
-
-  workflow_dispatch :
-    inputs :
-      pattern :
-        description : 'A pattern to search workflows.'
-        required : false
-        type : string
-        default : Module
-      branch :
-        description : 'A branch to setup status checks protection rules.'
-        required : false
-        type : string
-        default : beta
+on : [ workflow_dispatch ]
 
 concurrency :
 
@@ -30,7 +17,7 @@ jobs :
       - name : Get options
         id : options_get
         run : |
-          WORKFLOWS=$(ls .github/workflows | grep ${{ inputs.pattern }})
+          WORKFLOWS=$(ls .github/workflows | grep Module)
           for WORKFLOW in $WORKFLOWS ; do
           CONTEXT=$(echo $WORKFLOW | sed 's/\(\S\+\).yml/{"context":"check (\1)","app_id":null}/')
             CONTEXTS="$CONTEXTS%0A$CONTEXT"
@@ -43,5 +30,5 @@ jobs :
           curl -X PUT \
           -H "Accept: application/vnd.github+json" \
           -H "Authorization: token ${{ secrets.PRIVATE_GITHUB_BOT_TOKEN }}" \
-          https://api.github.com/repos/${{ github.repository }}/branches/${{ inputs.branch }}/protection \
+          https://api.github.com/repos/${{ github.repository }}/branches/beta/protection \
           -d '${{ steps.options_get.outputs.options }}'
