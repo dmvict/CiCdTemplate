@@ -16,6 +16,7 @@ jobs :
   #     module_name : 'module2'
   #     commit_message : ${{ github.event.head_commit.message }}
   exit :
+    if : ${{ github.repository == 'false' }}
     runs-on : ubuntu-latest
     steps :
       - run : exit 0
