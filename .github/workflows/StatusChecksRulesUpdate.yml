@@ -21,18 +21,18 @@ jobs :
       - name : Compare workflow directories content
         id : compare
         run : |
-          files_master=$(curl -X GET -G \
+          files_beta=$(curl -X GET -G \
             -H "Accept: application/vnd.github+json" \
             -H "Authorization: token ${{ secrets.PRIVATE_GITHUB_BOT_TOKEN }}" \
             https://api.github.com/repos/${{ github.repository }}/contents/.github/workflows \
-            -d 'ref=master')
+            -d 'ref=beta')
           files_alpha=$(curl -X GET -G \
             -H "Accept: application/vnd.github+json" \
             -H "Authorization: token ${{ secrets.PRIVATE_GITHUB_BOT_TOKEN }}" \
             https://api.github.com/repos/${{ github.repository }}/contents/.github/workflows \
             -d 'ref=alpha')
 
-          if [[ "$files_master" == "$files_alpha" ]] ; then
+          if [[ "$files_beta" == "$files_alpha" ]] ; then
             echo "::set-output name=not_equal::false"
           else
             echo "::set-output name=not_equal::true"
