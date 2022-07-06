@@ -5,6 +5,11 @@ on :
   push :
     branches : [ alpha ]
 
+concurrency :
+
+  group : auto_merge_to_beta
+  cancel-in-progress : true
+
 jobs :
 
   get_modules:
@@ -91,4 +96,16 @@ jobs :
           github-token: ${{ secrets.PRIVATE_GITHUB_BOT_TOKEN }}
           number: ${{ steps.find.outputs.number }}
           method: merge
+
+  skipped_runs_check :
+    needs : check
+    if : ${{ success() }}
+    runs-on : ubuntu-latest
+    steps :
+      - name : Failure if skipped
+        if : ${{ needs.check.outputs.has_succeeded_runs != 'true' }}
+        run : exit 1
+      - name : Success if not skipped
+        if : ${{ needs.check.outputs.has_succeeded_runs == 'true' }}
+        run : exit 0
 
