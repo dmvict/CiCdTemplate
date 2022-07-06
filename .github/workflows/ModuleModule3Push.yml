@@ -1,0 +1,21 @@
+name : module3
+
+on : push
+
+env :
+  CARGO_TERM_COLOR : always
+
+jobs :
+
+  # module2
+
+  # test :
+  #   uses : Wandalen/CiCdTemplate/.github/workflows/StandardRustPush.yml@alpha
+  #   with :
+  #     manifest_path : 'module/module2/Cargo.toml'
+  #     module_name : 'module2'
+  #     commit_message : ${{ github.event.head_commit.message }}
+  exit :
+    runs-on : ubuntu-latest
+    steps :
+      - run : exit 0
