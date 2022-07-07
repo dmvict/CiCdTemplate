@@ -4,7 +4,7 @@ name : status_checks_rules_update
 on :
   pull_request :
     types : [ opened ]
-    branches : [ beta ]
+    branches : [ alpha, beta ]
 
 concurrency :
 
@@ -14,6 +14,7 @@ concurrency :
 jobs :
 
   check_workflows :
+    if : ${{ github.event.pull_request.base.ref == 'beta' }}
     outputs :
       should_update : ${{ steps.compare.outputs.not_equal }}
     runs-on : ubuntu-latest
@@ -38,7 +39,7 @@ jobs :
             echo "::set-output name=not_equal::true"
           fi
 
-  update :
+  update_beta :
     needs : check_workflows
     if : ${{ needs.check_workflows.outputs.should_update == 'true' }}
     runs-on : ubuntu-latest
@@ -61,6 +62,11 @@ jobs :
             -H "Authorization: token ${{ secrets.PRIVATE_GITHUB_BOT_TOKEN }}" \
             https://api.github.com/repos/${{ github.repository }}/branches/beta/protection \
             -d '${{ steps.options_get.outputs.options }}'
+
+  update_alpha :
+    if : ${{ github.event.pull_request.base.ref == 'alpha' }}
+    runs-on : ubuntu-latest
+    steps :
       - name : Setup rules for alpha
         run : |
           CHECKS='[{"context":"tested / fast (ubuntu-latest)","app_id":null},{"context":"tested / fast (windows-latest)","app_id":null},{"context":"tested / fast (macos-latest)","app_id":null}]'
