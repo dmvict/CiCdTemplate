@@ -9,9 +9,13 @@ jobs :
 
   # module1
 
-  test :
-    uses : Wandalen/CiCdTemplate/.github/workflows/StandardRustPush.yml@alpha
-    with :
-      manifest_path : 'module/module1/Cargo.toml'
-      module_name : 'module1'
-      commit_message : ${{ github.event.head_commit.message }}
+  # test :
+  #   uses : Wandalen/CiCdTemplate/.github/workflows/StandardRustPush.yml@alpha
+  #   with :
+  #     manifest_path : 'module/module1/Cargo.toml'
+  #     module_name : 'module1'
+  #     commit_message : ${{ github.event.head_commit.message }}
+  exit :
+    runs-on : ubuntu-latest
+    steps :
+      - run : exit 0
